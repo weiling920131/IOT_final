@@ -11,7 +11,6 @@ import DAN
 import crawl_weather_V8 as cw
 import os
 import csv, threading
-from STT import STTAgent
 
 ServerURL = 'https://2.iottalk.tw/'      #with non-secure connection
 #ServerURL = 'https://DomainName' #with SSL connection
@@ -96,13 +95,11 @@ def handle_message(event):
 
 def send_speech2Text_message():
     while True:
-        stt = STTAgent()
-        text = stt.run()
-        if text is not None:
-            for userId in user_id_set:
-                line_bot_api.push_message(userId, TextSendMessage(text='測試中...'))
-                # line_bot_api.push_message(userId, TextSendMessage(text=text))
-                time.sleep(1) 
+        Msg = pull_Msg()
+        print('GotMsg:{}'.format(Msg[0]))
+        for userId in user_id_set:
+            line_bot_api.push_message(userId, TextSendMessage(text=Msg))
+        time.sleep(1)
 
 thread = threading.Thread(target=send_speech2Text_message)
 thread.daemon = True
