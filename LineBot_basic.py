@@ -18,12 +18,12 @@ Reg_addr = '170.1.3' #if None, Reg_addr = MAC address
 
 DAN.profile['dm_name'] = 'LineBot Device'
 DAN.profile['df_list']=['Msg-I', 'Msg-O']
-DAN.profile['d_name']= '170_Dummy_Device_1'
+DAN.profile['d_name']= '206_device'
 
 DAN.device_registration_with_retry(ServerURL, Reg_addr)
 
-line_bot_api = LineBotApi('4i4FncKooWFGmj3ueylc7KeK7hCTv74mdIb8yXo6kuzgBKvobSS0TEtYr+6AblXnVmyNT4v4DZCu80bhlTtLmdKAqG6m4LZhnURi85YmUR7eyzwFIPNWtXhfM6r/7GygMDbanmYhfjb2jJNSz07fHwdB04t89/1O/w1cDnyilFU=') #LineBot's Channel access token
-handler = WebhookHandler('7c4b10c631ec30a9a9a8a88aa186fea8')        #LineBot's Channel secret
+# line_bot_api = LineBotApi('4i4FncKooWFGmj3ueylc7KeK7hCTv74mdIb8yXo6kuzgBKvobSS0TEtYr+6AblXnVmyNT4v4DZCu80bhlTtLmdKAqG6m4LZhnURi85YmUR7eyzwFIPNWtXhfM6r/7GygMDbanmYhfjb2jJNSz07fHwdB04t89/1O/w1cDnyilFU=') #LineBot's Channel access token
+# handler = WebhookHandler('7c4b10c631ec30a9a9a8a88aa186fea8')        #LineBot's Channel secret
 user_id_set=set()                                         #LineBot's Friend's user id 
 app = Flask(__name__)
 
