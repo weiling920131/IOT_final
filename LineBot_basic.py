@@ -10,7 +10,8 @@ import time, random, requests
 import DAN
 import crawl_weather_V8 as cw
 import os
-import csv
+import csv, threading
+from STT import STTAgent
 
 ServerURL = 'https://2.iottalk.tw/'      #with non-secure connection
 #ServerURL = 'https://DomainName' #with SSL connection
@@ -47,12 +48,10 @@ def loadUserId():
         print(e)
         return None
 
-
 def saveUserId(userId):
         idFile = open('idfile', 'a')
         idFile.write(userId+';')
         idFile.close()
-
 
 @app.route("/", methods=['GET'])
 def hello():
@@ -73,29 +72,42 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     Msg = event.message.text
-    if '溫度' in Msg:
-        cw.crawl_weather()
-        print(cw.temp[0])
-        DAN.push ('Msg-I', cw.temp[0])
-        time.sleep(0.5)
-        odf = pull_Msg()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text="{}度".format(odf[0])))
-    elif '濕度' in Msg:
-        cw.crawl_weather()
-        DAN.push ('Msg-I', cw.hum[0])
-        time.sleep(0.5)
-        odf = pull_Msg()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text="{}%".format(odf[0])))
-    else:
-        print('GotMsg:{}'.format(Msg))
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text="輸入\"溫度\"或\"濕度\"以查詢"))
+    # if '溫度' in Msg:
+    #     cw.crawl_weather()
+    #     print(cw.temp[0])
+    #     DAN.push ('Msg-I', cw.temp[0])
+    #     time.sleep(0.5)
+    #     odf = pull_Msg()
+    #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text="{}度".format(odf[0])))
+    # elif '濕度' in Msg:
+    #     cw.crawl_weather()
+    #     DAN.push ('Msg-I', cw.hum[0])
+    #     time.sleep(0.5)
+    #     odf = pull_Msg()
+    #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text="{}%".format(odf[0])))
+    # else:
+    print('GotMsg:{}'.format(Msg))
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="還在開發中"))
     
     userId = event.source.user_id
     if not userId in user_id_set:
         user_id_set.add(userId)
         saveUserId(userId)
 
-   
+def send_speech2Text_message():
+    while True:
+        stt = STTAgent()
+        text = stt.run()
+        if text is not None:
+            for userId in user_id_set:
+                line_bot_api.push_message(userId, TextSendMessage(text='測試中...'))
+                # line_bot_api.push_message(userId, TextSendMessage(text=text))
+                time.sleep(1) 
+
+thread = threading.Thread(target=send_speech2Text_message)
+thread.daemon = True
+thread.start()
+
 if __name__ == "__main__":
 
     idList = loadUserId()
