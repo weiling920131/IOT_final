@@ -24,6 +24,8 @@ DAN.device_registration_with_retry(ServerURL, Reg_addr)
 
 # line_bot_api = LineBotApi('4i4FncKooWFGmj3ueylc7KeK7hCTv74mdIb8yXo6kuzgBKvobSS0TEtYr+6AblXnVmyNT4v4DZCu80bhlTtLmdKAqG6m4LZhnURi85YmUR7eyzwFIPNWtXhfM6r/7GygMDbanmYhfjb2jJNSz07fHwdB04t89/1O/w1cDnyilFU=') #LineBot's Channel access token
 # handler = WebhookHandler('7c4b10c631ec30a9a9a8a88aa186fea8')        #LineBot's Channel secret
+line_bot_api = LineBotApi('Qc1Aa6fKTU3re63L/LJiI3nGfbzbAnmvBqlvELR3LBeLMYgLT+6hhxK9S+zGu9tTAPbKiy7sC8kk5fRSFmc6Z7+siufo52tSNks/SwqrlFM3daHL093Mcylq2fUID/0713n1e30LCrmJKmKBQ6N3hAdB04t89/1O/w1cDnyilFU=') #LineBot's Channel access token
+handler = WebhookHandler('e40f04844ce6c0b7ed2c7f2df55945b1')
 user_id_set=set()                                         #LineBot's Friend's user id 
 app = Flask(__name__)
 
